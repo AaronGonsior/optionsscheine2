@@ -1,14 +1,14 @@
 package optionsscheine2
 
 import (
-	"fmt"
-	"time"
-	"strings"
-	"net/http"
-	"io/ioutil"
-	"strconv"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
+	"strconv"
+	"strings"
+	"time"
 	//"math"
 )
 
@@ -63,12 +63,13 @@ func JsonToOptions(path string) []Option {
 	var options []Option
 	var params []string
 	var newOption Option
+	var tmp float64
 	for _,ar := range strAr {
 		params = strings.Split(ar," ")
 
-		spc,err := strconv.Atoi(params[5])
+		spc,err := strconv.ParseFloat(params[5],64)
 		check(err)
-		sp, err := strconv.Atoi(params[6])
+		sp, err := strconv.ParseFloat(params[6],64)
 		check(err)
 
 		newOption = Option{
@@ -77,15 +78,16 @@ func JsonToOptions(path string) []Option {
 			Exerciese_style:     params[2],
 			Expiration_date:     params[3],
 			Primaty_exchange:    params[4],
-			Shares_per_contract: spc,
-			Strike_price:        sp,
+			Shares_per_contract: int(spc),
+			Strike_price:        int(sp),
 			Ticker:              params[7],
 			Underlying_ticker:   params[8],
 		}
 
 
-		newOption.Volume,err = strconv.Atoi(params[9])
+		tmp, err = strconv.ParseFloat(params[9],64)
 		check(err)
+		newOption.Volume = int(tmp)
 		newOption.Vw,err = strconv.ParseFloat(params[10],64)
 		check(err)
 		newOption.Open,err = strconv.ParseFloat(params[11],64)
@@ -96,10 +98,13 @@ func JsonToOptions(path string) []Option {
 		check(err)
 		newOption.Low,err = strconv.ParseFloat(params[14],64)
 		check(err)
-		newOption.T,err = strconv.Atoi(params[15])
+		tmp,err = strconv.ParseFloat(params[15],64)
 		check(err)
-		newOption.N,err = strconv.Atoi(params[16])
+		newOption.T = int(tmp)
+		tmp,err = strconv.ParseFloat(params[16],64)
 		check(err)
+		newOption.N = int(tmp)
+
 
 		options = append(options, newOption)
 	}
@@ -227,6 +232,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 
 	var options []Option
 	var params []string
+	//var tmp float64
 
 	for _,opt := range optionsStr {
 		opt = strings.Replace(opt,"\"","",-1)
@@ -236,10 +242,12 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 			params[i] = strings.Split(p,":")[1]
 		}
 
-		spc,err := strconv.Atoi(params[5])
+		tmp,err := strconv.ParseFloat(params[5],64)
 		check(err)
-		sp, err := strconv.Atoi(params[6])
+		spc := int(tmp)
+		tmp, err = strconv.ParseFloat(params[6], 64)
 		check(err)
+		sp := int(tmp)
 
 		options = append(options, Option{
 			Cfi:                 params[0],
@@ -302,8 +310,9 @@ func completeOptions(options []Option, apiKey string) []Option {
 			dataAr[i] = strings.Replace(strings.Split(d,":")[1],"\"","",-1)
 		}
 
-		options[j].Volume,err = strconv.Atoi(dataAr[1])
+		tmp,err := strconv.ParseFloat(dataAr[1],64)
 		check(err)
+		options[j].Volume = int(tmp)
 		options[j].Vw,err = strconv.ParseFloat(dataAr[2],64)
 		check(err)
 		options[j].Open,err = strconv.ParseFloat(dataAr[3],64)
@@ -314,10 +323,12 @@ func completeOptions(options []Option, apiKey string) []Option {
 		check(err)
 		options[j].Low,err = strconv.ParseFloat(dataAr[6],64)
 		check(err)
-		options[j].T,err = strconv.Atoi(dataAr[7])
+		tmp,err = strconv.ParseFloat(dataAr[7],64)
 		check(err)
-		options[j].N,err = strconv.Atoi(dataAr[8])
+		options[j].T = int(tmp)
+		tmp,err = strconv.ParseFloat(dataAr[8],64)
 		check(err)
+		options[j].N = int(tmp)
 
 
 	}
