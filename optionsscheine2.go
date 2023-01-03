@@ -18,6 +18,7 @@ func check(err error){
 	}
 }
 
+
 func WriteJson(path string, content string){
 	// Open a file for writing
 	file, err := os.Create(path)
@@ -79,7 +80,7 @@ func JsonToOptions(path string) []Option {
 			Expiration_date:     params[3],
 			Primaty_exchange:    params[4],
 			Shares_per_contract: int(spc),
-			Strike_price:        int(sp),
+			Strike_price:        sp,
 			Ticker:              params[7],
 			Underlying_ticker:   params[8],
 		}
@@ -129,7 +130,7 @@ type Option struct {
 	Expiration_date string
 	Primaty_exchange string
 	Shares_per_contract int
-	Strike_price int
+	Strike_price float64
 	Ticker string
 	Underlying_ticker string
 	Volume int
@@ -247,7 +248,8 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 		spc := int(tmp)
 		tmp, err = strconv.ParseFloat(params[6], 64)
 		check(err)
-		sp := int(tmp)
+		//sp := int(tmp)
+		sp := tmp
 
 		options = append(options, Option{
 			Cfi:                 params[0],
@@ -271,7 +273,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 	//filter strike_range
 	fmt.Println("strike_range: ",optreq.StrikeRange)
 	for _,opt := range options {
-		if opt.Strike_price > optreq.StrikeRange[0] && opt.Strike_price < optreq.StrikeRange[1]{
+		if opt.Strike_price > float64(optreq.StrikeRange[0]) && opt.Strike_price < float64(optreq.StrikeRange[1]){
 			newOptions = append(newOptions,opt)
 		}
 	}
