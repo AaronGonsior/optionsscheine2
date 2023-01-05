@@ -218,6 +218,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 
 		// filter out next url
 		msg = fmt.Sprintln("nextURL:"+nextURL)
+		fmt.Println(msg)
 		log += msg
 
 
