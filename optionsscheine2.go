@@ -215,6 +215,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 		nextURL = strings.Split(body,"\"next_url\":")[1]
 		nextURL = strings.Replace(nextURL,"\"","",-1)
 		nextURL = strings.Replace(nextURL,"}","",-1)
+		nextURL = strings.Replace(nextURL,"\n", "",-1)
 
 		// filter out next url
 		msg = fmt.Sprintln("nextURL:"+nextURL)
