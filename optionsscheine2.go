@@ -153,7 +153,7 @@ func (o Option) Print() string{
 
 func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 	if nMax == -1 {
-		nMax = 1000000
+		nMax = 100000000
 	}
 
 	log := ""
@@ -217,11 +217,6 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 		nextURL = strings.Replace(nextURL,"}","",-1)
 		nextURL = strings.Replace(nextURL,"\n", "",-1)
 
-		// filter out next url
-		msg = fmt.Sprintln("nextURL:"+nextURL)
-		fmt.Println(msg)
-		log += msg
-
 
 		// filter out next url
 		nextURL = strings.Split(body,"\"next_url\":")[1]
@@ -230,6 +225,11 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 		msg = fmt.Sprintln("nextURL:"+nextURL)
 		log += msg
 		nextURL += "&apiKey=" + optreq.ApiKey
+
+		// filted out next url
+		msg = fmt.Sprintln("nextURL:"+nextURL)
+		fmt.Println(msg)
+		log += msg
 
 	}
 
