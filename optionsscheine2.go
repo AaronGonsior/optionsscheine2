@@ -184,10 +184,11 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 
 
 		// Do next url request
-		res, body, err = APIRequest(nextURL)
+		res, body, err = APIRequest(nextURL,1)
 		if err != nil {
 			continue
 		}
+
 		msg = fmt.Sprintln("response: ", res)
 		log += msg
 
@@ -292,7 +293,7 @@ func completeOptions(options []Option, apiKey string) []Option {
 		url := "https://api.polygon.io/v2/aggs/ticker/O:"+opt.Ticker
 		url += "/prev?adjusted=true&apiKey="+apiKey
 
-		_, body, err := APIRequest(url)
+		_, body, err := APIRequest(url,1)
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println("Removing option from list")
@@ -347,7 +348,7 @@ func completeOptions(options []Option, apiKey string) []Option {
 
 }
 
-func APIRequest (url string) (string,string,error) {
+func APIRequest (url string, iteration int) (string,string,error) {
 	debug := true
 	print := true
 
@@ -381,10 +382,15 @@ func APIRequest (url string) (string,string,error) {
 		errormsg = strings.Split(errormsg,"}")[0]
 		fmt.Println("An error occured: \n "+errormsg+"\nWaiting 60 seconds and retrying...")
 		time.Sleep(60*time.Second)
-		return APIRequest(url)
+		return APIRequest(url,1)
 	}
 
 	if len(strings.Split(string(body),"\"results\":[{"))<2 {
+		fmt.Println("no result")
+		for iteration < 5 {
+			time.Sleep(time.Second)
+			return APIRequest(url, iteration+1)
+		}
 		return "", "", fmt.Errorf("no results")
 	}
 
@@ -396,8 +402,8 @@ func APIRequest (url string) (string,string,error) {
 
 	fmt.Println("API Request successfully made")
 
-	fmt.Println("response: ", res)
-	fmt.Println("response body :", string(body))
+	//fmt.Println("response: ", res)
+	//fmt.Println("response body :", string(body))
 	return fmt.Sprint(res) , string(body), nil
 }
 
@@ -424,7 +430,7 @@ func URLoption(req OptionURLReq) (string, error) {
 		url += "&expiration_date.lte=" + req.DateRange[1]
 	}
 	if len(req.Contract_type)>0 {
-		url+= "&contract_type="+req.Contract_type
+		url += "&contract_type="+req.Contract_type
 	}
 
 	return url, nil
