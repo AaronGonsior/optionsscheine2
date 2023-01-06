@@ -388,6 +388,7 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	if len(strings.Split(string(body),"\"results\":[{"))<2 {
 		fmt.Println("no result")
 		for iteration < 5 {
+			fmt.Println("ReRequesting in 1 second. That will be the ",iteration," reRequest.")
 			time.Sleep(time.Second)
 			return APIRequest(url, iteration+1)
 		}
