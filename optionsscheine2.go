@@ -153,7 +153,7 @@ func (o Option) Print() string{
 
 func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 	if nMax == -1 {
-		nMax = 100000000
+		nMax = 10000
 	}
 
 	log := ""
