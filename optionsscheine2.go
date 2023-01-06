@@ -398,7 +398,12 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	//fmt.Println("\ndebug: ",strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0],len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0]))
 
 	if len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0])<5{
-		return "", "", fmt.Errorf("no results")
+		fmt.Println("no result")
+		for iteration < 5 {
+			fmt.Println("ReRequesting in 1 second. That will be the ",iteration," reRequest.")
+			time.Sleep(time.Second)
+			return APIRequest(url, iteration+1)
+		}
 	}
 
 	fmt.Println("API Request successfully made")
