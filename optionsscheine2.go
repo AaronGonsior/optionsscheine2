@@ -396,8 +396,8 @@ func APIRequest (url string) (string,string,error) {
 
 	fmt.Println("API Request successfully made")
 
-	//fmt.Println("response: ", res)
-	//fmt.Println("response body :", string(body))
+	fmt.Println("response: ", res)
+	fmt.Println("response body :", string(body))
 	return fmt.Sprint(res) , string(body), nil
 }
 
@@ -420,7 +420,6 @@ func URLoption(req OptionURLReq) (string, error) {
 	}
 
 	if len(req.DateRange) == 2 {
-		//dateFormat:="2006-01-02"
 		url += "&expiration_date.gte=" + req.DateRange[0]
 		url += "&expiration_date.lte=" + req.DateRange[1]
 	}
