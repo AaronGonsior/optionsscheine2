@@ -402,9 +402,9 @@ func APIRequest (url string, iteration int) (string,string,error) {
 
 	if len(strings.Split(string(body),"\"results\":[{"))<2 {
 		fmt.Println("no result")
-		for iteration < 5 {
-			fmt.Println("ReRequesting in 1 second. That will be the ",iteration," reRequest.")
-			time.Sleep(time.Second)
+		for iteration < 3 {
+			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration," reRequest.")
+			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
 		return "", "", fmt.Errorf("no results")
@@ -414,9 +414,9 @@ func APIRequest (url string, iteration int) (string,string,error) {
 
 	if len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0])<5{
 		fmt.Println("no result")
-		for iteration < 5 {
-			fmt.Println("ReRequesting in 1 second. That will be the ",iteration," reRequest.")
-			time.Sleep(time.Second)
+		for iteration < 3 {
+			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration," reRequest.")
+			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
 	}
