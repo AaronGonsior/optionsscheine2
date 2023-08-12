@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	//"math"
+	"math"
 )
 
 func check(err error){
@@ -403,7 +403,7 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	if len(strings.Split(string(body),"\"results\":[{"))<2 {
 		fmt.Println("no result")
 		for iteration < 3 {
-			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration," reRequest.")
+			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")
 			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
@@ -415,10 +415,13 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	if len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0])<5{
 		fmt.Println("no result")
 		for iteration < 3 {
-			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration," reRequest.")
+			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")
 			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
+		fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")
+		time.Sleep(500*time.Millisecond)
+		return APIRequest(url, iteration+1)
 	}
 
 	fmt.Println("API Request successfully made")
@@ -426,6 +429,19 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	//fmt.Println("response: ", res)
 	//fmt.Println("response body :", string(body))
 	return fmt.Sprint(res) , string(body), nil
+}
+
+func stndrdth (n int) string {
+	switch math.Mod(float64(n), 10) {
+	case 1:
+		return "st"
+	case 2:
+		return "nd"
+	case 3:
+		return "rd"
+	default:
+		return "th"
+	}
 }
 
 func URLoption(req OptionURLReq) (string, error) {
