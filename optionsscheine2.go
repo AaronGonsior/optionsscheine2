@@ -223,10 +223,12 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 		nextURL = strings.Split(body,"\"next_url\":")[1]
 		nextURL = strings.Replace(nextURL,"\"","",-1)
 		nextURL = strings.Replace(nextURL,"}","",-1)
-		nextURL += "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
+		//nextURL += "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
+		urlPrint := nextURL + "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
+		nextURL += "&apiKey=" + optreq.ApiKey
 
 		// filted out next url
-		msg = fmt.Sprintln("nextURL:"+nextURL)
+		msg = fmt.Sprintln("nextURL:"+urlPrint)
 		fmt.Println(msg)
 		log += msg
 
