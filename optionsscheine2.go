@@ -436,7 +436,7 @@ func APIRequest (url string, iteration int) (string,string,error) {
 		return APIRequest(url, iteration+1)
 	}
 
-	fmt.Println("API Request successfully made")
+	if debug{fmt.Println("API Request successfully made")}
 
 	//fmt.Println("response: ", res)
 	//fmt.Println("response body :", string(body))
