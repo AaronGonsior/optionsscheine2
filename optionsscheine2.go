@@ -380,7 +380,7 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	body, _ := ioutil.ReadAll(res.Body)
 
 	requestCounter++
-	if print{
+	if print && !debug {
 		fmt.Printf("\r %v requests successfully made",requestCounter)
 	}
 
