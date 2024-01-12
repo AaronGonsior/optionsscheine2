@@ -152,6 +152,7 @@ func (o Option) Print() string{
 }
 
 func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
+	debug := false
 	if nMax == -1 {
 		nMax = 10000
 	}
@@ -229,7 +230,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 
 		// filted out next url
 		msg = fmt.Sprintln("nextURL:"+urlPrint)
-		fmt.Println(msg)
+		if debug{fmt.Println(msg)}
 		log += msg
 
 	}
