@@ -151,7 +151,7 @@ func (o Option) Print() string{
 	return readStr
 }
 
-func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
+func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 	if nMax == -1 {
 		nMax = 10000
 	}
@@ -186,7 +186,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 		// Do next url request
 		res, body, err = APIRequest(nextURL,1)
 		if err != nil {
-			continue
+			return nil, "", err
 		}
 
 		msg = fmt.Sprintln("response: ", res)
@@ -281,7 +281,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string) {
 	options = newOptions
 
 
-	return options, log
+	return options, log, nil
 
 }
 
@@ -349,7 +349,7 @@ func completeOptions(options []Option, apiKey string) []Option {
 }
 
 func APIRequest (url string, iteration int) (string,string,error) {
-	debug := true
+	debug := false
 	print := true
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -368,7 +368,7 @@ func APIRequest (url string, iteration int) (string,string,error) {
 		retryNr++
 		if retryNr >= maxRetry{
 			fmt.Println("API Request Response is nil and kept being nil for ", int(waitTime.Seconds())*maxRetry ," seconds. Try establishing a better internet connection.")
-			os.Exit(0)
+			return "", "", err
 		}
 	}
 	defer res.Body.Close()
