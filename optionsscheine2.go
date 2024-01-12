@@ -153,6 +153,8 @@ func (o Option) Print() string{
 
 func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 	debug := false
+	print := true
+
 	if nMax == -1 {
 		nMax = 10000
 	}
@@ -175,6 +177,8 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 
 
 	var optionsStr []string
+
+	requestCounter := 0
 
 	var dataStr string
 	var dataAr []string
@@ -232,6 +236,11 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 		msg = fmt.Sprintln("nextURL:"+urlPrint)
 		if debug{fmt.Println(msg)}
 		log += msg
+
+		requestCounter++
+		if print && !debug {
+			fmt.Printf("\r %v requests successfully made",requestCounter)
+		}
 
 	}
 
@@ -378,11 +387,6 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	}
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
-
-	requestCounter++
-	if print && !debug {
-		fmt.Printf("\r %v requests successfully made",requestCounter)
-	}
 
 	if debug{
 		fmt.Println("Request made:")
