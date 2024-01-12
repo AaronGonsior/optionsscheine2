@@ -224,11 +224,11 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 		nextURL = strings.Replace(nextURL,"\"","",-1)
 		nextURL = strings.Replace(nextURL,"}","",-1)
 		//nextURL += "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
-		//urlPrint := nextURL + "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
+		urlPrint := nextURL + "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
 		nextURL += "&apiKey=" + optreq.ApiKey
 
 		// filted out next url
-		msg = fmt.Sprintln("nextURL:"+nextURL)
+		msg = fmt.Sprintln("nextURL:"+urlPrint)
 		fmt.Println(msg)
 		log += msg
 
@@ -354,6 +354,8 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	debug := false
 	print := true
 
+	var requestCounter int = 0
+
 	req, err := http.NewRequest("GET", url, nil)
 	check(err)
 	var res *http.Response
@@ -376,11 +378,14 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 
-	if print {
+	requestCounter++
+	if print{
+		fmt.Printf("\r %v requests successfully made",requestCounter)
+	}
+
+	if debug{
 		fmt.Println("Request made:")
 		fmt.Println(url)
-	}
-	if debug{
 		fmt.Println("Response and body:")
 		fmt.Println(res,"\n", string(body))
 	}
