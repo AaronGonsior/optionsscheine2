@@ -362,9 +362,9 @@ func completeOptions(options []Option, apiKey string) []Option {
 
 func APIRequest (url string, iteration int) (string,string,error) {
 	debug := false
-	print := true
+	//print := true
 
-	var requestCounter int = 0
+	//var requestCounter int = 0
 
 	req, err := http.NewRequest("GET", url, nil)
 	check(err)
