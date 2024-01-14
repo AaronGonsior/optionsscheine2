@@ -157,7 +157,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 
 	if print {
 		fmt.Println("Pulling options for option request:")
-		fmt.Printf("ticker=%v\nstrikeRange=%v\n,Contract_type=%v\nDateRange=%v\n",optreq.Ticker,optreq.StrikeRange,optreq.Contract_type,optreq.DateRange)
+		fmt.Printf("ticker=%v\nstrikeRange=%v\nContract_type=%v\nDateRange=%v\n",optreq.Ticker,optreq.StrikeRange,optreq.Contract_type,optreq.DateRange)
 	}
 
 	if nMax == -1 {
