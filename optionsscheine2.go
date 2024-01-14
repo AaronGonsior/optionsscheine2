@@ -373,9 +373,9 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	var res *http.Response
 	res, err = http.DefaultClient.Do(req)
 	check(err)
+	retryNr := 1
+	maxRetry := 12
 	for res == nil {
-		retryNr := 1
-		maxRetry := 12
 		fmt.Println("Response is nil (possibly due to connection loss), waiting for 5 seconds and retrying (",retryNr,")")
 		waitTime := 5 * time.Second
 		time.Sleep( waitTime )
