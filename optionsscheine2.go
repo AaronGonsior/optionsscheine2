@@ -303,7 +303,12 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 func completeOptions(options []Option, apiKey string) []Option {
 
 	//var res, body string
-	fmt.Println("There are ",len(options), " options to pull from the API. With a free license this will take approx. ",len(options)/5, " minutes.")
+	fmt.Println("There are ",len(options), " options to pull from the API.")
+	if apiKey == "" {
+		fmt.Println("With a free license this will take approx. ",len(options)/5, " minutes.")
+	} else {
+		//fmt.Println("With a premium license this will take approx. ",len(options)/5, " minutes.")
+	}
 	for j,opt := range options {
 		url := "https://api.polygon.io/v2/aggs/ticker/O:"+opt.Ticker
 		url += "/prev?adjusted=true&apiKey="+apiKey
