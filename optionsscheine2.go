@@ -236,7 +236,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 		nextURL = strings.Replace(nextURL,"\"","",-1)
 		nextURL = strings.Replace(nextURL,"}","",-1)
 		//nextURL += "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)-1]
-		urlPrint := nextURL + "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-3:len(optreq.ApiKey)]
+		urlPrint := nextURL + "&apiKey=***********" + optreq.ApiKey[len(optreq.ApiKey)-4:len(optreq.ApiKey)]
 		nextURL += "&apiKey=" + optreq.ApiKey
 
 		// filted out next url
@@ -308,13 +308,10 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 }
 
 func completeOptions(options []Option, apiKey string) []Option {
-	debug := true
+	//debug := true
 
 	//var res, body string
 	fmt.Println("There are ",len(options), " options to pull from the API.")
-	if debug {
-		fmt.Println("ApiKey=",apiKey)
-	}
 	if apiKey == "" {
 		fmt.Println("With a free license this will take approx. ",len(options)/5, " minutes.")
 	} else {
