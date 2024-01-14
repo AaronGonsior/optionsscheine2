@@ -443,13 +443,11 @@ func APIRequest (url string, iteration int) (string,string,error) {
 
 	if len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0])<5{
 		fmt.Println("no result")
-		/*
 		for iteration < 3 {
 			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")
 			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
-		 */
 		fmt.Printf("ReRequesting in 500 milliseconds. That will be the %v%v reRequest.",iteration,stndrdth(iteration))
 		time.Sleep(500*time.Millisecond)
 		return APIRequest(url, iteration+1)
