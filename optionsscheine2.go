@@ -152,7 +152,7 @@ func (o Option) Print() string{
 }
 
 func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
-	debug := true
+	debug := false
 	print := true
 
 	if nMax == -1 {
