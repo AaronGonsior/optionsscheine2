@@ -156,7 +156,8 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 	print := true
 
 	if print {
-		fmt.Println("Pulling options for option request:\n",optreq)
+		fmt.Println("Pulling options for option request:")
+		fmt.Printf("ticker=%v\nstrikeRange=%v\n,Contract_type=%v\nDateRange=%v\n",optreq.Ticker,optreq.StrikeRange,optreq.Contract_type,optreq.DateRange)
 	}
 
 	if nMax == -1 {
@@ -446,7 +447,7 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	//fmt.Println("\ndebug: ",strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0],len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0]))
 
 	if len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0])<5{
-		fmt.Println("no result")
+		if debug {fmt.Println("no result")}
 		for iteration < 3 {
 			if debug {fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")}
 			time.Sleep(500*time.Millisecond)
