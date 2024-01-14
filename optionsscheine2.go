@@ -304,9 +304,13 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 }
 
 func completeOptions(options []Option, apiKey string) []Option {
+	debug := true
 
 	//var res, body string
 	fmt.Println("There are ",len(options), " options to pull from the API.")
+	if debug {
+		fmt.Println("ApiKey=",apiKey)
+	}
 	if apiKey == "" {
 		fmt.Println("With a free license this will take approx. ",len(options)/5, " minutes.")
 	} else {
