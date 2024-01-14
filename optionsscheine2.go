@@ -195,10 +195,12 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 
 
 		// Do next url request
-		res, body, err = APIRequest(nextURL,1)
+		res, body, _ = APIRequest(nextURL,1)
+		/*
 		if err != nil {
 			return nil, "", err
 		}
+		 */
 
 		msg = fmt.Sprintln("response: ", res)
 		log += msg
