@@ -155,6 +155,10 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 	debug := false
 	print := true
 
+	if print {
+		fmt.Println("Pulling options for option request:\n",optreq)
+	}
+
 	if nMax == -1 {
 		nMax = 10000
 	}
@@ -294,7 +298,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 	var newOptions []Option
 
 	//filter strike_range
-	fmt.Println("strike_range: ",optreq.StrikeRange)
+	if debug{fmt.Println("strike_range: ",optreq.StrikeRange)}
 	for _,opt := range options {
 		if opt.Strike_price > float64(optreq.StrikeRange[0]) && opt.Strike_price < float64(optreq.StrikeRange[1]){
 			newOptions = append(newOptions,opt)
@@ -308,7 +312,7 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 }
 
 func completeOptions(options []Option, apiKey string) []Option {
-	//debug := true
+	debug := false
 
 	//var res, body string
 	fmt.Println("There are ",len(options), " options to pull from the API.")
@@ -324,7 +328,7 @@ func completeOptions(options []Option, apiKey string) []Option {
 		_, body, err := APIRequest(url,1)
 		if err != nil {
 			fmt.Println(err)
-			fmt.Println("Removing option from list")
+			if debug {fmt.Println("Removing option from list")}
 			options[j] = Option{}
 			continue
 		}
@@ -430,9 +434,9 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	}
 
 	if len(strings.Split(string(body),"\"results\":[{"))<2 {
-		fmt.Println("no result")
+		if debug {fmt.Println("no result")}
 		for iteration < 3 {
-			fmt.Printf("ReRequesting in 500 milliseconds. That will be the %v%v reRequest.",iteration,stndrdth(iteration))
+			if debug{fmt.Printf("ReRequesting in 500 milliseconds. That will be the %v%v reRequest.",iteration,stndrdth(iteration))}
 			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
@@ -444,11 +448,11 @@ func APIRequest (url string, iteration int) (string,string,error) {
 	if len(strings.Split(strings.Split(string(body),"\"results\":")[1],"]")[0])<5{
 		fmt.Println("no result")
 		for iteration < 3 {
-			fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")
+			if debug {fmt.Println("ReRequesting in 500 milliseconds. That will be the ",iteration,stndrdth(iteration)," reRequest.")}
 			time.Sleep(500*time.Millisecond)
 			return APIRequest(url, iteration+1)
 		}
-		fmt.Printf("ReRequesting in 500 milliseconds. That will be the %v%v reRequest.",iteration,stndrdth(iteration))
+		if debug {fmt.Printf("ReRequesting in 500 milliseconds. That will be the %v%v reRequest.",iteration,stndrdth(iteration))}
 		time.Sleep(500*time.Millisecond)
 		return APIRequest(url, iteration+1)
 	}
