@@ -210,8 +210,9 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 			msg = fmt.Sprintln("Add to optionsStr: " , data)
 			log += msg
 			optionsStr = append(optionsStr,data)
+
 			optionCounter++
-			if print && !debug {
+			if print /*&& !debug*/ {
 				fmt.Printf("\r %v API requests successfully made - %v options pulled",requestCounter,optionCounter)
 			}
 		}
@@ -244,9 +245,12 @@ func GetOptions(optreq OptionURLReq, nMax int) ([]Option , string, error) {
 		log += msg
 
 		requestCounter++
+		if print /*&& !debug*/ {
+			fmt.Printf("\r %v API requests successfully made - %v options pulled",requestCounter,optionCounter)
+		}
 
 	}
-	if print && !debug {
+	if print /*&& !debug*/ {
 		fmt.Println("")
 	}
 
