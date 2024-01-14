@@ -366,7 +366,7 @@ func completeOptions(options []Option, apiKey string) []Option {
 		check(err)
 		options[j].N = int(tmp)
 
-		fmt.Printf("\r %.2f %% (%v out of %v) of available options pulled and converted.",float64(j)/float64(len(options))*100,j,len(options))
+		fmt.Printf("\r %.2f %% (%v out of %v) of available options pulled and converted",float64(j)/float64(len(options))*100,j,len(options))
 	}
 	fmt.Println("")
 
